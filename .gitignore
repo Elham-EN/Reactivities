@@ -1,0 +1,42 @@
+# Build output
+bin/
+obj/
+
+# .NET secrets & environment
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
+.env
+.env.*
+secrets.json
+
+# User-specific IDE files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.idea/
+*.lscache
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+# Publish output
+publish/
+out/
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Test results
+TestResults/
+coverage/
