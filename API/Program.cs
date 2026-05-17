@@ -24,6 +24,8 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 
+// The scope runs before app.Run() — it's not part of the request pipeline 
+// at all. It executes once at startup: Then it disposes
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try
@@ -39,4 +41,6 @@ catch (Exception ex)
     logger.LogError(ex, "An error occured during migration");
 }
 
+// The starting point for incoming requests is app.Run(). Everything before it 
+// (service registration, middleware, seed data) has already executed by that point.
 app.Run();
