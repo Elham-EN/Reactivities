@@ -1,7 +1,8 @@
 import React from "react";
+import type { Activitiy } from "./lib/types/index.type";
 
 function App(): React.ReactElement {
-  const [activities, setActivities] = React.useState([]);
+  const [activities, setActivities] = React.useState<Activitiy[]>([]);
 
   React.useEffect(() => {
     fetch("https://localhost:5001/api/Activities").then((response) =>
