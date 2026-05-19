@@ -1,3 +1,4 @@
+using Application.Activities.Queries;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -13,6 +14,11 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddCors();
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.LicenseKey = builder.Configuration["MediatR:LicenseKey"];
+    cfg.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>();
+});
 
 var app = builder.Build();
 
