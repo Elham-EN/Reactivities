@@ -1,8 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Domain;
-using MediatR;
 using Application.Activities.Queries;
+using Application.Activities.Commands;
 
 namespace API.Controllers
 {
@@ -18,6 +18,12 @@ namespace API.Controllers
         public async Task<ActionResult<Activity>> GetActivityDetails(string id)
         {
             return await this.Mediator.Send(new GetActivityDetails.Query{Id = id});
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateActivity(Activity activity)
+        {
+            return await Mediator.Send(new CreateActivity.Command{Activity = activity});
         }
     }
 }
