@@ -1,4 +1,5 @@
 using Application.Activities.Queries;
+using Application.Core;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -19,6 +20,10 @@ builder.Services.AddMediatR(cfg =>
     cfg.LicenseKey = builder.Configuration["MediatR:LicenseKey"];
     cfg.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>();
 });
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.LicenseKey = builder.Configuration["MediatR:LicenseKey"];
+}, typeof(MappingProfiles).Assembly);
 
 var app = builder.Build();
 
