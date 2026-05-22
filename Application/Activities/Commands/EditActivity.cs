@@ -36,7 +36,7 @@ namespace Application.Activities.Commands
                     throw new Exception("Cannot find activity");
                 }
 
-                // automatically copies matching properties from source to destination 
+                // Automatically copies matching properties from source to destination 
                 mapper.Map(request.Activity, activity);
 
                 // EF Core sees the diff and runs UPDATE

@@ -1,5 +1,5 @@
 import React from "react";
-import type { Activitiy } from "./lib/types/index.type";
+import type { Activitiy } from "../../lib/types/index.type";
 import axios from "axios";
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
 
