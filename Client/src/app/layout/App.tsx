@@ -7,6 +7,9 @@ import ActivityDashboard from "../../features/activities/ActivityDashboard";
 
 function App(): React.ReactElement {
   const [activities, setActivities] = React.useState<Activitiy[]>([]);
+  const [selectedActivity, setSelectedActivity] = React.useState<
+    Activitiy | undefined
+  >(undefined);
 
   React.useEffect(() => {
     try {
@@ -18,11 +21,24 @@ function App(): React.ReactElement {
     }
   }, []);
 
+  const handleSelectActivity = (id: string): void => {
+    setSelectedActivity(activities.find((x) => x.id === id));
+  };
+
+  const handleCancelSelectActivity = (): void => {
+    setSelectedActivity(undefined);
+  };
+
   return (
     <>
       <NavBar />
       <Container maxWidth="xl" sx={{ mt: 3 }}>
-        <ActivityDashboard activities={activities} />
+        <ActivityDashboard
+          activities={activities}
+          selectedActivity={selectedActivity}
+          selectActivity={handleSelectActivity}
+          cancelSelectActivity={handleCancelSelectActivity}
+        />
       </Container>
     </>
   );

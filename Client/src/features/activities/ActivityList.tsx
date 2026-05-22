@@ -5,13 +5,21 @@ import ActivityCard from "./ActivityCard";
 
 interface Props {
   activities: Activitiy[];
+  selectActivity: (id: string) => void;
 }
 
-function ActivityList({ activities }: Props): React.ReactElement {
+function ActivityList({
+  activities,
+  selectActivity,
+}: Props): React.ReactElement {
   return (
     <Stack spacing={2}>
       {activities.map((activity) => (
-        <ActivityCard key={activity.id} activity={activity} />
+        <ActivityCard
+          key={activity.id}
+          activity={activity}
+          selectActivity={selectActivity}
+        />
       ))}
     </Stack>
   );
