@@ -14,7 +14,7 @@ import theme from "./app/layout/theme";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} defaultMode="light" noSsr>
       <CssBaseline />
       <App />
     </ThemeProvider>

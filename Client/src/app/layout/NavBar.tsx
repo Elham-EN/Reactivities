@@ -9,14 +9,23 @@ import {
   List,
   ListItemButton,
   ListItemText,
+  Switch,
+  useColorScheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import React, { useState } from "react";
+import React, { useState, type ChangeEvent } from "react";
 
 const navLinks = ["Activities", "Profile"];
 
 export default function NavBar(): React.ReactElement {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { mode, setMode } = useColorScheme();
+
+  const label = { slotProps: { input: { "aria-label": "dark-mode" } } };
+
+  const handleDarkMode = (event: ChangeEvent<HTMLInputElement>): void => {
+    setMode(event.target.checked ? "dark" : "light");
+  };
 
   return (
     <>
@@ -60,6 +69,7 @@ export default function NavBar(): React.ReactElement {
             >
               Reactivities
             </Typography>
+            <Switch {...label} onChange={handleDarkMode} checked={mode === "dark"} />
             {/* Desktop nav links — hidden on mobile */}
             <Box sx={{ display: { xs: "none", md: "flex" }, ml: 4, gap: 1 }}>
               {navLinks.map((link) => (
