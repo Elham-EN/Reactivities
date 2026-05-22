@@ -1,8 +1,9 @@
 import React from "react";
 import type { Activitiy } from "../../lib/types/index.type";
 import axios from "axios";
-import { List, ListItem, ListItemText } from "@mui/material";
+import { Container } from "@mui/material";
 import NavBar from "./NavBar";
+import ActivityDashboard from "../../features/activities/ActivityDashboard";
 
 function App(): React.ReactElement {
   const [activities, setActivities] = React.useState<Activitiy[]>([]);
@@ -20,13 +21,9 @@ function App(): React.ReactElement {
   return (
     <>
       <NavBar />
-      <List>
-        {activities.map((activity) => (
-          <ListItem key={activity.id}>
-            <ListItemText>{activity.title}</ListItemText>
-          </ListItem>
-        ))}
-      </List>
+      <Container maxWidth="xl" sx={{ mt: 3 }}>
+        <ActivityDashboard activities={activities} />
+      </Container>
     </>
   );
 }
