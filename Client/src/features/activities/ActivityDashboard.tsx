@@ -1,25 +1,21 @@
-import { Grid, List, ListItem, ListItemText } from "@mui/material";
+import { Grid } from "@mui/material";
 import React from "react";
 import type { Activitiy } from "../../lib/types/index.type";
+import ActivityList from "./ActivityList";
 
 interface Props {
   activities: Activitiy[];
 }
 
-export default function ActivityDashboard({
-  activities,
-}: Props): React.ReactElement {
+function ActivityDashboard({ activities }: Props): React.ReactElement {
   return (
-    <Grid container>
-      <Grid size={9}>
-        <List>
-          {activities.map((activity) => (
-            <ListItem key={activity.id}>
-              <ListItemText>{activity.title}</ListItemText>
-            </ListItem>
-          ))}
-        </List>
+    <Grid container spacing={3}>
+      <Grid size={7}>
+        <ActivityList activities={activities} />
       </Grid>
+      <Grid size={5}>{/* Sidebar placeholder */}</Grid>
     </Grid>
   );
 }
+
+export default ActivityDashboard;

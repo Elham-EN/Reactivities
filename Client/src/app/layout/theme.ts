@@ -18,8 +18,8 @@ const theme = createTheme({
           contrastText: "#0F1419",
         },
         background: {
-          default: "#FFFFFF", // Page/app background
-          paper: "#F7F9F9", // Cards, sidebars, modals, dropdowns
+          default: "#F0F2F5", // Page/app background
+          paper: "#FFFFFF", // Cards, sidebars, modals, dropdowns
         },
         text: {
           primary: "#0F1419", // Headings, usernames, post body text
@@ -75,7 +75,7 @@ const theme = createTheme({
     fontFamily: "Roboto, sans-serif",
   },
   shape: {
-    borderRadius: 16,
+    borderRadius: 8,
   },
 });
 
