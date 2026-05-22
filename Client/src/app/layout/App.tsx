@@ -1,7 +1,8 @@
 import React from "react";
 import type { Activitiy } from "../../lib/types/index.type";
 import axios from "axios";
-import { List, ListItem, ListItemText, Typography } from "@mui/material";
+import { List, ListItem, ListItemText } from "@mui/material";
+import NavBar from "./NavBar";
 
 function App(): React.ReactElement {
   const [activities, setActivities] = React.useState<Activitiy[]>([]);
@@ -18,7 +19,7 @@ function App(): React.ReactElement {
 
   return (
     <>
-      <Typography variant="h1">Reactivities</Typography>
+      <NavBar />
       <List>
         {activities.map((activity) => (
           <ListItem key={activity.id}>
