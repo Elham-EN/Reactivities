@@ -19,11 +19,13 @@ import type { Activitiy } from "../../lib/types/index.type";
 interface Props {
   activity: Activitiy;
   cancelSelectActivity: () => void;
+  openForm: (id: string) => void;
 }
 
 export default function ActivityDetails({
   activity,
   cancelSelectActivity,
+  openForm,
 }: Props): React.ReactElement {
   const formattedDate = new Date(activity.date).toLocaleDateString("en-US", {
     weekday: "long",
@@ -162,6 +164,7 @@ export default function ActivityDetails({
             fontSize: "0.85rem",
             px: 2.5,
           }}
+          onClick={() => openForm(activity.id)}
         >
           Edit
         </Button>

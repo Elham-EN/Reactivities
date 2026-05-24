@@ -10,6 +10,7 @@ function App(): React.ReactElement {
   const [selectedActivity, setSelectedActivity] = React.useState<
     Activitiy | undefined
   >(undefined);
+  const [editMode, setEditMode] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     try {
@@ -29,15 +30,28 @@ function App(): React.ReactElement {
     setSelectedActivity(undefined);
   };
 
+  const handleOpenForm = (id?: string): void => {
+    if (id) handleSelectActivity(id);
+    else handleCancelSelectActivity();
+    setEditMode(true);
+  };
+
+  const handleFormClose = (): void => {
+    setEditMode(false);
+  };
+
   return (
     <>
-      <NavBar />
+      <NavBar openForm={handleOpenForm} />
       <Container maxWidth="xl" sx={{ mt: 3 }}>
         <ActivityDashboard
           activities={activities}
           selectedActivity={selectedActivity}
           selectActivity={handleSelectActivity}
           cancelSelectActivity={handleCancelSelectActivity}
+          editMode={editMode}
+          openForm={handleOpenForm}
+          closeForm={handleFormClose}
         />
       </Container>
     </>

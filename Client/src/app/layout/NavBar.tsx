@@ -15,9 +15,14 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useState, type ChangeEvent } from "react";
 
+type Props = {
+  // Create Activity, no id parameter needed
+  openForm: () => void;
+};
+
 const navLinks = ["Activities", "Profile"];
 
-export default function NavBar(): React.ReactElement {
+export default function NavBar({ openForm }: Props): React.ReactElement {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { mode, setMode } = useColorScheme();
 
@@ -69,7 +74,11 @@ export default function NavBar(): React.ReactElement {
             >
               Reactivities
             </Typography>
-            <Switch {...label} onChange={handleDarkMode} checked={mode === "dark"} />
+            <Switch
+              {...label}
+              onChange={handleDarkMode}
+              checked={mode === "dark"}
+            />
             {/* Desktop nav links — hidden on mobile */}
             <Box sx={{ display: { xs: "none", md: "flex" }, ml: 4, gap: 1 }}>
               {navLinks.map((link) => (
@@ -86,7 +95,11 @@ export default function NavBar(): React.ReactElement {
               ))}
             </Box>
           </Box>
-          <Button variant="contained" sx={{ textTransform: "none" }}>
+          <Button
+            variant="contained"
+            sx={{ textTransform: "none" }}
+            onClick={openForm}
+          >
             Create Activity
           </Button>
         </Toolbar>
