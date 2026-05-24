@@ -3,6 +3,7 @@ import React from "react";
 import type { Activitiy } from "../../lib/types/index.type";
 import ActivityList from "./ActivityList";
 import ActivityDetails from "./ActivityDetails";
+import ActivityForm from "./form/ActivityForm";
 
 interface Props {
   activities: Activitiy[];
@@ -29,6 +30,7 @@ function ActivityDashboard({
             cancelSelectActivity={cancelSelectActivity}
           />
         )}
+        <ActivityForm />
       </Grid>
     </Grid>
   );
