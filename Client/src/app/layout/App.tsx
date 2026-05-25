@@ -1,10 +1,10 @@
 import React from "react";
 import type { Activitiy } from "../../lib/types/index.type";
-import axios from "axios";
 import { Container, Typography } from "@mui/material";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/ActivityDashboard";
-import { useQuery } from "@tanstack/react-query";
+
+import { useActivities } from "../../lib/hooks/useActivities";
 
 function App(): React.ReactElement {
   const [selectedActivity, setSelectedActivity] = React.useState<
@@ -12,15 +12,7 @@ function App(): React.ReactElement {
   >(undefined);
   const [editMode, setEditMode] = React.useState<boolean>(false);
 
-  const { data: activities, isPending } = useQuery({
-    queryKey: ["activities"],
-    queryFn: async () => {
-      const response = await axios.get<Activitiy[]>(
-        "https://localhost:5001/api/Activities",
-      );
-      return response.data;
-    },
-  });
+  const { activities, isPending } = useActivities();
 
   const handleSelectActivity = (id: string): void => {
     setSelectedActivity(activities!.find((x) => x.id === id));
