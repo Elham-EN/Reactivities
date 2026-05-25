@@ -24,7 +24,7 @@ namespace Application.Activities.Queries
             {
                 // Pass cancellationToken to EF Core if the request is cancelled, 
                 // the db query stops immediately instead of wasting resources
-                return await context.Activities.ToListAsync(cancellationToken);
+                return await context.Activities.OrderBy(a => a.Date).ToListAsync(cancellationToken);
             }
         }
     }

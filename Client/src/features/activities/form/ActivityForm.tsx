@@ -1,23 +1,24 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import React from "react";
 import type { Activitiy } from "../../../lib/types/index.type";
+import { useActivities } from "../../../lib/hooks/useActivities";
 
 interface Props {
   activity?: Activitiy;
   closeForm: () => void;
-  submitForm: (activity: Activitiy) => void;
 }
 
 export default function ActivityForm({
   activity,
   closeForm,
-  submitForm,
 }: Props): React.ReactElement {
-  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>): void => {
+  const { updateActivity } = useActivities();
+
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // 1. Grab the form element on submission
+
     const formElement = event.currentTarget;
-    // 2. Create the FormData object
+
     const formData = new FormData(formElement);
 
     const data: { [key: string]: FormDataEntryValue } = {};
@@ -26,11 +27,16 @@ export default function ActivityForm({
       data[key] = value;
     });
 
-    // set to the existing activity's id (editing activity)
-    if (activity) data.id = activity.id;
-
-    submitForm(data as unknown as Activitiy);
+    if (activity) {
+      data.id = activity.id;
+      data.latitude = String(activity.latitude);
+      data.longitude = String(activity.longitude);
+      data.date = `${data.date}T00:00:00Z`;
+      await updateActivity.mutateAsync(data as unknown as Activitiy);
+      closeForm();
+    }
   };
+
   return (
     <Paper sx={{ borderRadius: 3, padding: 3 }} elevation={0}>
       <Typography variant="h5" gutterBottom color="primary">
@@ -61,7 +67,11 @@ export default function ActivityForm({
           <Button onClick={closeForm} color="inherit">
             Cancel
           </Button>
-          <Button variant="contained" type="submit">
+          <Button
+            variant="contained"
+            type="submit"
+            loading={updateActivity.isPending}
+          >
             Submit
           </Button>
         </Box>
