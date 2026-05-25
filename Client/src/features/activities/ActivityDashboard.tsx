@@ -14,6 +14,7 @@ interface Props {
   closeForm: () => void;
   editMode: boolean;
   submitForm: (activity: Activitiy) => void;
+  deleteActivity: (id: string) => void;
 }
 
 function ActivityDashboard({
@@ -25,11 +26,16 @@ function ActivityDashboard({
   closeForm,
   editMode,
   submitForm,
+  deleteActivity,
 }: Props): React.ReactElement {
   return (
     <Grid container spacing={3}>
       <Grid size={7}>
-        <ActivityList activities={activities} selectActivity={selectActivity} />
+        <ActivityList
+          activities={activities}
+          selectActivity={selectActivity}
+          deleteActivity={deleteActivity}
+        />
       </Grid>
       <Grid size={5}>
         {selectedActivity && !editMode && (

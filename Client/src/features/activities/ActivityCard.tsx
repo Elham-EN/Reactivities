@@ -17,9 +17,14 @@ import type { Activitiy } from "../../lib/types/index.type";
 interface Props {
   activity: Activitiy;
   selectActivity: (id: string) => void;
+  deleteActivity: (id: string) => void;
 }
 
-function ActivityCard({ activity, selectActivity }: Props): React.ReactElement {
+function ActivityCard({
+  activity,
+  selectActivity,
+  deleteActivity,
+}: Props): React.ReactElement {
   const formattedDate = new Date(activity.date).toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -157,6 +162,21 @@ function ActivityCard({ activity, selectActivity }: Props): React.ReactElement {
           onClick={() => selectActivity(activity.id)}
         >
           View
+        </Button>
+        <Button
+          size="small"
+          variant="text"
+          color="error"
+          sx={{
+            borderRadius: 5,
+            textTransform: "none",
+            fontWeight: 600,
+            fontSize: "0.85rem",
+            px: 1.5,
+          }}
+          onClick={() => deleteActivity(activity.id)}
+        >
+          Delete
         </Button>
         <Button
           size="small"

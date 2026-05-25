@@ -59,6 +59,10 @@ function App(): React.ReactElement {
     setEditMode(false);
   };
 
+  const handleDelete = (id: string): void => {
+    setActivities(activities.filter((x) => x.id !== id));
+  };
+
   return (
     <>
       <NavBar openForm={handleOpenForm} />
@@ -72,6 +76,7 @@ function App(): React.ReactElement {
           openForm={handleOpenForm}
           closeForm={handleFormClose}
           submitForm={handleSumbitForm}
+          deleteActivity={handleDelete}
         />
       </Container>
     </>
