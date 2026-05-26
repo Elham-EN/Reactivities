@@ -26,5 +26,37 @@ export function useActivities() {
     },
   });
 
-  return { activities, isPending, updateActivity };
+  const createActivity = useMutation({
+    mutationFn: async (activity: Activitiy) => {
+      await agent.post("/Activities", activity);
+    },
+    onSuccess: async () => {
+      // This ensures the UI automatically shows the latest data
+      // after any change.
+      await queryClient.invalidateQueries({
+        queryKey: ["activities"],
+      });
+    },
+  });
+
+  const deleteActivity = useMutation({
+    mutationFn: async (id: string) => {
+      await agent.delete(`/Activities/${id}`);
+    },
+    onSuccess: async () => {
+      // This ensures the UI automatically shows the latest data
+      // after any change.
+      await queryClient.invalidateQueries({
+        queryKey: ["activities"],
+      });
+    },
+  });
+
+  return {
+    activities,
+    isPending,
+    updateActivity,
+    createActivity,
+    deleteActivity,
+  };
 }

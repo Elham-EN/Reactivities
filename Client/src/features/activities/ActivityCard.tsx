@@ -13,18 +13,16 @@ import {
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import type { Activitiy } from "../../lib/types/index.type";
+import { useActivities } from "../../lib/hooks/useActivities";
 
 interface Props {
   activity: Activitiy;
   selectActivity: (id: string) => void;
-  deleteActivity: (id: string) => void;
 }
 
-function ActivityCard({
-  activity,
-  selectActivity,
-  deleteActivity,
-}: Props): React.ReactElement {
+function ActivityCard({ activity, selectActivity }: Props): React.ReactElement {
+  const { deleteActivity } = useActivities();
+
   const formattedDate = new Date(activity.date).toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -174,7 +172,8 @@ function ActivityCard({
             fontSize: "0.85rem",
             px: 1.5,
           }}
-          onClick={() => deleteActivity(activity.id)}
+          onClick={() => deleteActivity.mutate(activity.id)}
+          loading={deleteActivity.isPending}
         >
           Delete
         </Button>

@@ -6,12 +6,10 @@ import ActivityCard from "./ActivityCard";
 interface Props {
   activities: Activitiy[];
   selectActivity: (id: string) => void;
-  deleteActivity: (id: string) => void;
 }
 
 function ActivityList({
   activities,
-  deleteActivity,
   selectActivity,
 }: Props): React.ReactElement {
   return (
@@ -21,7 +19,6 @@ function ActivityList({
           key={activity.id}
           activity={activity}
           selectActivity={selectActivity}
-          deleteActivity={deleteActivity}
         />
       ))}
     </Stack>

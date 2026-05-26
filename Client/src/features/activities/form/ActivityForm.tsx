@@ -12,7 +12,7 @@ export default function ActivityForm({
   activity,
   closeForm,
 }: Props): React.ReactElement {
-  const { updateActivity } = useActivities();
+  const { updateActivity, createActivity } = useActivities();
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,6 +33,12 @@ export default function ActivityForm({
       data.longitude = String(activity.longitude);
       data.date = `${data.date}T00:00:00Z`;
       await updateActivity.mutateAsync(data as unknown as Activitiy);
+      closeForm();
+    } else {
+      data.latitude = "0";
+      data.longitude = "0";
+      data.date = `${data.date}T00:00:00Z`;
+      await createActivity.mutateAsync(data as unknown as Activitiy);
       closeForm();
     }
   };
@@ -78,7 +84,7 @@ export default function ActivityForm({
           <Button
             variant="contained"
             type="submit"
-            loading={updateActivity.isPending}
+            loading={updateActivity.isPending || createActivity.isPending}
           >
             Submit
           </Button>
