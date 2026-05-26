@@ -15,18 +15,25 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import type { Activitiy } from "../../lib/types/index.type";
+import { useActivities } from "../../lib/hooks/useActivities";
 
 interface Props {
-  activity: Activitiy;
+  selectedActivity: Activitiy;
   cancelSelectActivity: () => void;
   openForm: (id: string) => void;
 }
 
 export default function ActivityDetails({
-  activity,
+  selectedActivity,
   cancelSelectActivity,
   openForm,
 }: Props): React.ReactElement {
+  // Short term solution: Get lastest Activity data
+  const { activities } = useActivities();
+  const activity = activities?.find((x) => x.id === selectedActivity.id);
+
+  if (!activity) return <Typography>Loading...</Typography>;
+
   const formattedDate = new Date(activity.date).toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
