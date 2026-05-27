@@ -6,6 +6,17 @@ import {
 import type { Activitiy } from "../types/index.type";
 import agent from "../api/agent";
 
+export function useActivity(id: string) {
+  const { data: activity } = useSuspenseQuery({
+    queryKey: ["activities", id],
+    queryFn: async () => {
+      const response = await agent.get<Activitiy>(`/Activities/${id}`);
+      return response.data;
+    },
+  });
+  return { activity };
+}
+
 export function useActivities() {
   const queryClient = useQueryClient();
 
