@@ -46,7 +46,7 @@ const theme = createTheme({
         },
         // Chip backgrounds, secondary buttons, tag/badge surfaces
         secondary: {
-          main: "#202327",
+          main: "#2F3336",
           contrastText: "#E7E9EA",
         },
         background: {
