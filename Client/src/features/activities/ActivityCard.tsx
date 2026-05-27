@@ -17,10 +17,9 @@ import { useActivities } from "../../lib/hooks/useActivities";
 
 interface Props {
   activity: Activitiy;
-  selectActivity: (id: string) => void;
 }
 
-function ActivityCard({ activity, selectActivity }: Props): React.ReactElement {
+function ActivityCard({ activity }: Props): React.ReactElement {
   const { deleteActivity } = useActivities();
 
   const formattedDate = new Date(activity.date).toLocaleDateString("en-US", {
@@ -157,7 +156,7 @@ function ActivityCard({ activity, selectActivity }: Props): React.ReactElement {
             px: 1.5,
             "&:hover": { color: "text.primary", bgcolor: "secondary.main" },
           }}
-          onClick={() => selectActivity(activity.id)}
+          onClick={() => {}}
         >
           View
         </Button>

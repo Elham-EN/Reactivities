@@ -3,16 +3,9 @@ import React from "react";
 import type { Activitiy } from "../../../lib/types/index.type";
 import { useActivities } from "../../../lib/hooks/useActivities";
 
-interface Props {
-  activity?: Activitiy;
-  closeForm: () => void;
-}
-
-export default function ActivityForm({
-  activity,
-  closeForm,
-}: Props): React.ReactElement {
+export default function ActivityForm(): React.ReactElement {
   const { updateActivity, createActivity } = useActivities();
+  const activity = {} as Activitiy;
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,13 +26,11 @@ export default function ActivityForm({
       data.longitude = String(activity.longitude);
       data.date = `${data.date}T00:00:00Z`;
       await updateActivity.mutateAsync(data as unknown as Activitiy);
-      closeForm();
     } else {
       data.latitude = "0";
       data.longitude = "0";
       data.date = `${data.date}T00:00:00Z`;
       await createActivity.mutateAsync(data as unknown as Activitiy);
-      closeForm();
     }
   };
 
@@ -78,7 +69,7 @@ export default function ActivityForm({
         <TextField name="city" label="City" defaultValue={activity?.city} />
         <TextField name="venue" label="Venue" defaultValue={activity?.venue} />
         <Box sx={{ display: "flex", justifyContent: "end" }}>
-          <Button onClick={closeForm} color="inherit">
+          <Button onClick={() => {}} color="inherit">
             Cancel
           </Button>
           <Button

@@ -1,46 +1,17 @@
 import { Grid } from "@mui/material";
-import React from "react";
-import type { Activitiy } from "../../lib/types/index.type";
+import React, { Suspense } from "react";
 import ActivityList from "./ActivityList";
-import ActivityDetails from "./ActivityDetails";
-import ActivityForm from "./form/ActivityForm";
+import LoadingFallback from "../../lib/components/LoadingFallback";
 
-interface Props {
-  activities: Activitiy[];
-  selectActivity: (id: string) => void;
-  cancelSelectActivity: () => void;
-  selectedActivity: Activitiy | undefined;
-  openForm: (id: string) => void; // Edit the form
-  closeForm: () => void;
-  editMode: boolean;
-}
-
-function ActivityDashboard({
-  activities,
-  cancelSelectActivity,
-  selectActivity,
-  selectedActivity,
-  openForm,
-  closeForm,
-  editMode,
-}: Props): React.ReactElement {
+function ActivityDashboard(): React.ReactElement {
   return (
     <Grid container spacing={3}>
       <Grid size={7}>
-        <ActivityList activities={activities} selectActivity={selectActivity} />
+        <Suspense fallback={<LoadingFallback message="Loading activities" />}>
+          <ActivityList />
+        </Suspense>
       </Grid>
-      <Grid size={5}>
-        {selectedActivity && !editMode && (
-          <ActivityDetails
-            selectedActivity={selectedActivity}
-            cancelSelectActivity={cancelSelectActivity}
-            openForm={openForm}
-          />
-        )}
-        {editMode && (
-          <ActivityForm closeForm={closeForm} activity={selectedActivity} />
-        )}
-      </Grid>
+      <Grid size={5}>Activity Filter</Grid>
     </Grid>
   );
 }

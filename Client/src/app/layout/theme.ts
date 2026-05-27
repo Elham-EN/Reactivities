@@ -10,7 +10,7 @@ const theme = createTheme({
       palette: {
         // Buttons, links, active icons, follow button, progress indicators
         primary: {
-          main: "#E05454",
+          main: "#0A7C6E",
         },
         // Chip backgrounds, secondary buttons, tag/badge surfaces
         secondary: {
@@ -42,7 +42,7 @@ const theme = createTheme({
       palette: {
         // Buttons, links, active icons, follow button, progress indicators
         primary: {
-          main: "#E05454",
+          main: "#0A7C6E",
         },
         // Chip backgrounds, secondary buttons, tag/badge surfaces
         secondary: {

@@ -14,15 +14,14 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useState, type ChangeEvent } from "react";
+import { NavLink } from "react-router";
 
-type Props = {
-  // Create Activity, no id parameter needed
-  openForm: () => void;
-};
+const navLinks = [
+  { name: "Activities", path: "activities", end: true },
+  { name: "Create Activity", path: "activities/create", end: false },
+];
 
-const navLinks = ["Activities", "Profile"];
-
-export default function NavBar({ openForm }: Props): React.ReactElement {
+export default function NavBar(): React.ReactElement {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { mode, setMode } = useColorScheme();
 
@@ -63,13 +62,15 @@ export default function NavBar({ openForm }: Props): React.ReactElement {
             </IconButton>
             <Typography
               variant="h5"
-              component="div"
+              component={NavLink}
+              to="/"
               sx={{
                 color: "text.primary",
                 fontFamily: "Outfit, sans-serif",
                 fontWeight: 700,
                 letterSpacing: "-0.5px",
                 lineHeight: 1,
+                textDecoration: "none",
               }}
             >
               Reactivities
@@ -83,14 +84,18 @@ export default function NavBar({ openForm }: Props): React.ReactElement {
             <Box sx={{ display: { xs: "none", md: "flex" }, ml: 4, gap: 1 }}>
               {navLinks.map((link) => (
                 <Button
-                  key={link}
+                  key={link.name}
+                  component={NavLink}
+                  to={`/${link.path}`}
+                  end={link.end}
                   sx={{
                     color: "text.secondary",
                     fontWeight: 500,
                     textTransform: "none",
+                    "&.active": { color: "primary.main", fontWeight: 700 },
                   }}
                 >
-                  {link}
+                  {link.name}
                 </Button>
               ))}
             </Box>
@@ -98,9 +103,9 @@ export default function NavBar({ openForm }: Props): React.ReactElement {
           <Button
             variant="contained"
             sx={{ textTransform: "none" }}
-            onClick={openForm}
+            onClick={() => {}}
           >
-            Create Activity
+            Login
           </Button>
         </Toolbar>
       </AppBar>
@@ -114,8 +119,13 @@ export default function NavBar({ openForm }: Props): React.ReactElement {
         <Box sx={{ width: 240, pt: 2 }}>
           <List>
             {navLinks.map((link) => (
-              <ListItemButton key={link} onClick={() => setDrawerOpen(false)}>
-                <ListItemText primary={link} />
+              <ListItemButton
+                key={link.name}
+                component={NavLink}
+                to={`/${link.path}`}
+                onClick={() => setDrawerOpen(false)}
+              >
+                <ListItemText primary={link.name} />
               </ListItemButton>
             ))}
           </List>

@@ -1,11 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import type { Activitiy } from "../types/index.type";
 import agent from "../api/agent";
 
 export function useActivities() {
   const queryClient = useQueryClient();
 
-  const { data: activities, isPending } = useQuery({
+  const { data: activities, isPending } = useSuspenseQuery({
     queryKey: ["activities"],
     queryFn: async () => {
       const response = await agent.get<Activitiy[]>("/Activities");
