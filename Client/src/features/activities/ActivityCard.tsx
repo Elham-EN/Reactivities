@@ -7,13 +7,13 @@ import {
   Button,
   Chip,
   Box,
-  Divider,
   Stack,
+  CardHeader,
+  Avatar,
 } from "@mui/material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import type { Activitiy } from "../../lib/types/index.type";
-import { useActivities } from "../../lib/hooks/useActivities";
 import { Link } from "react-router";
 
 interface Props {
@@ -21,7 +21,15 @@ interface Props {
 }
 
 function ActivityCard({ activity }: Props): React.ReactElement {
-  const { deleteActivity } = useActivities();
+  const isHost = true;
+  const isGoing = false;
+  const isCancelled = true;
+  const label = isHost ? "You are hosting" : isGoing ? "You are going" : "";
+  const color = isHost
+    ? "primary.main"
+    : isGoing
+      ? "success.main"
+      : "text.secondary";
 
   const formattedDate = new Date(activity.date).toLocaleDateString("en-US", {
     weekday: "long",
@@ -36,7 +44,7 @@ function ActivityCard({ activity }: Props): React.ReactElement {
       sx={{
         border: "1px solid",
         borderColor: "divider",
-        borderRadius: 4,
+        borderRadius: 1,
         bgcolor: "background.paper",
         transition: "box-shadow 0.2s, border-color 0.2s",
         "&:hover": {
@@ -45,53 +53,99 @@ function ActivityCard({ activity }: Props): React.ReactElement {
         },
       }}
     >
-      <CardContent sx={{ p: 3, pb: 2 }}>
-        {/* Top row: category + cancelled badge */}
-        <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-          <Chip
-            label={activity.category.toUpperCase()}
-            size="small"
+      <CardHeader
+        avatar={
+          <Avatar
             sx={{
-              bgcolor: "secondary.main",
-              color: "secondary.contrastText",
+              width: 52,
+              height: 52,
+              bgcolor: "primary.main",
               fontWeight: 700,
-              fontSize: "0.65rem",
-              letterSpacing: "0.06em",
-              height: 22,
-              borderRadius: 1,
+              fontSize: "1.1rem",
             }}
-          />
-          {activity.isCancelled && (
+          >
+            B
+          </Avatar>
+        }
+        title={
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontSize: "1.05rem",
+              color: "text.primary",
+              lineHeight: 1.3,
+            }}
+          >
+            {activity.title}
+          </Typography>
+        }
+        subheader={
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 0.5 }}>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              Hosted by{" "}
+              <Box
+                component={Link}
+                to="/profiles/bob"
+                sx={{
+                  color: "primary.main",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  "&:hover": { textDecoration: "underline" },
+                }}
+              >
+                Bob
+              </Box>
+            </Typography>
+            {(isHost || isGoing) && (
+              <Chip
+                label={label}
+                size="small"
+                sx={{
+                  bgcolor: color,
+                  color: "#fff",
+                  fontWeight: 600,
+                  fontSize: "0.6rem",
+                  height: 18,
+                  borderRadius: 1,
+                }}
+              />
+            )}
+          </Box>
+        }
+        action={
+          <Stack direction="row" spacing={0.5} sx={{ pt: 1, pr: 1 }}>
             <Chip
-              label="CANCELLED"
+              label={activity.category.toUpperCase()}
               size="small"
               sx={{
-                bgcolor: "error.main",
-                color: "#fff",
+                bgcolor: "secondary.main",
+                color: "secondary.contrastText",
                 fontWeight: 700,
-                fontSize: "0.65rem",
+                fontSize: "0.6rem",
                 letterSpacing: "0.06em",
-                height: 22,
+                height: 20,
                 borderRadius: 1,
               }}
             />
-          )}
-        </Stack>
-
-        {/* Title */}
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: 800,
-            color: "text.primary",
-            fontSize: "1.05rem",
-            lineHeight: 1.35,
-            mb: 0.75,
-          }}
-        >
-          {activity.title}
-        </Typography>
-
+            {isCancelled && (
+              <Chip
+                label="CANCELLED"
+                size="small"
+                sx={{
+                  bgcolor: "error.main",
+                  color: "#fff",
+                  fontWeight: 700,
+                  fontSize: "0.6rem",
+                  height: 20,
+                  borderRadius: 1,
+                }}
+              />
+            )}
+          </Stack>
+        }
+        sx={{ px: 3, pt: 2.5, pb: 1 }}
+      />
+      <CardContent sx={{ p: 3, pb: 2 }}>
         {/* Description */}
         <Typography
           variant="body2"
@@ -142,44 +196,10 @@ function ActivityCard({ activity }: Props): React.ReactElement {
         </Stack>
       </CardContent>
 
-      <Divider />
-
-      <CardActions sx={{ px: 3, py: 1.5, gap: 1, justifyContent: "flex-end" }}>
+      <CardActions sx={{ px: 3, py: 2.5, gap: 1, justifyContent: "flex-end" }}>
         <Button
           component={Link}
           to={`/activities/${activity.id}`}
-          size="small"
-          variant="text"
-          sx={{
-            borderRadius: 5,
-            textTransform: "none",
-            fontWeight: 600,
-            fontSize: "0.85rem",
-            color: "text.secondary",
-            px: 1.5,
-            "&:hover": { color: "text.primary", bgcolor: "secondary.main" },
-          }}
-          onClick={() => {}}
-        >
-          View
-        </Button>
-        <Button
-          size="small"
-          variant="text"
-          color="error"
-          sx={{
-            borderRadius: 5,
-            textTransform: "none",
-            fontWeight: 600,
-            fontSize: "0.85rem",
-            px: 1.5,
-          }}
-          onClick={() => deleteActivity.mutate(activity.id)}
-          loading={deleteActivity.isPending}
-        >
-          Delete
-        </Button>
-        <Button
           size="small"
           variant="contained"
           disableElevation
@@ -188,10 +208,9 @@ function ActivityCard({ activity }: Props): React.ReactElement {
             textTransform: "none",
             fontWeight: 700,
             fontSize: "0.85rem",
-            px: 2.5,
           }}
         >
-          Join
+          View
         </Button>
       </CardActions>
     </Card>
