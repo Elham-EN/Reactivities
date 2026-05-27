@@ -14,6 +14,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import type { Activitiy } from "../../lib/types/index.type";
 import { useActivities } from "../../lib/hooks/useActivities";
+import { Link } from "react-router";
 
 interface Props {
   activity: Activitiy;
@@ -40,7 +41,7 @@ function ActivityCard({ activity }: Props): React.ReactElement {
         transition: "box-shadow 0.2s, border-color 0.2s",
         "&:hover": {
           borderColor: "primary.main",
-          boxShadow: "0 0 0 1px #1D9BF0",
+          boxShadow: "0 0 0 1px var(--mui-palette-primary-main)",
         },
       }}
     >
@@ -52,7 +53,7 @@ function ActivityCard({ activity }: Props): React.ReactElement {
             size="small"
             sx={{
               bgcolor: "secondary.main",
-              color: "text.secondary",
+              color: "secondary.contrastText",
               fontWeight: 700,
               fontSize: "0.65rem",
               letterSpacing: "0.06em",
@@ -145,6 +146,8 @@ function ActivityCard({ activity }: Props): React.ReactElement {
 
       <CardActions sx={{ px: 3, py: 1.5, gap: 1, justifyContent: "flex-end" }}>
         <Button
+          component={Link}
+          to={`/activities/${activity.id}`}
           size="small"
           variant="text"
           sx={{

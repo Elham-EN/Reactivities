@@ -14,25 +14,12 @@ import {
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import type { Activitiy } from "../../lib/types/index.type";
-import { useActivities } from "../../lib/hooks/useActivities";
+import { Link, useParams } from "react-router";
+import { useActivity } from "../../lib/hooks/useActivities";
 
-interface Props {
-  selectedActivity: Activitiy;
-  cancelSelectActivity: () => void;
-  openForm: (id: string) => void;
-}
-
-export default function ActivityDetails({
-  selectedActivity,
-  cancelSelectActivity,
-  openForm,
-}: Props): React.ReactElement {
-  // Short term solution: Get lastest Activity data
-  const { activities } = useActivities();
-  const activity = activities?.find((x) => x.id === selectedActivity.id);
-
-  if (!activity) return <Typography>Loading...</Typography>;
+export default function ActivityDetails(): React.ReactElement {
+  const { id } = useParams();
+  const { activity } = useActivity(id!);
 
   const formattedDate = new Date(activity.date).toLocaleDateString("en-US", {
     weekday: "long",
@@ -162,6 +149,8 @@ export default function ActivityDetails({
 
       <CardActions sx={{ px: 3, py: 1.5, gap: 1 }}>
         <Button
+          component={Link}
+          to={`/activities/${activity.id}`}
           variant="contained"
           disableElevation
           sx={{
@@ -171,11 +160,13 @@ export default function ActivityDetails({
             fontSize: "0.85rem",
             px: 2.5,
           }}
-          onClick={() => openForm(activity.id)}
+          onClick={() => {}}
         >
           Edit
         </Button>
         <Button
+          component={Link}
+          to={`/activities`}
           variant="text"
           sx={{
             borderRadius: 5,
@@ -186,7 +177,7 @@ export default function ActivityDetails({
             px: 1.5,
             "&:hover": { color: "text.primary", bgcolor: "secondary.main" },
           }}
-          onClick={cancelSelectActivity}
+          onClick={() => {}}
         >
           Cancel
         </Button>
