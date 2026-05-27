@@ -43,7 +43,8 @@ export function useActivities() {
 
   const createActivity = useMutation({
     mutationFn: async (activity: Activitiy) => {
-      await agent.post("/Activities", activity);
+      const response = await agent.post("/Activities", activity);
+      return response.data;
     },
     onSuccess: async () => {
       // This ensures the UI automatically shows the latest data

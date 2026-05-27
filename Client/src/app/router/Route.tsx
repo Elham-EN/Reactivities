@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import App from "../layout/App";
 import HomePage from "../../features/home/HomePage";
 import ActivityDashboard from "../../features/activities/ActivityDashboard";
-import ActivityForm from "../../features/activities/form/ActivityForm";
+import ActivityForm, { EditActivityForm } from "../../features/activities/form/ActivityForm";
 import LoadingFallback from "../../lib/components/LoadingFallback";
 import ActivityDetails from "../../features/activities/ActivityDetails";
 
@@ -30,9 +30,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "activities/create",
+        element: <ActivityForm />,
+      },
+      {
+        path: "activities/edit/:id",
         element: (
-          <Suspense fallback={<LoadingFallback message="Loading form" />}>
-            <ActivityForm />
+          <Suspense fallback={<LoadingFallback message="Loading activity form" />}>
+            <EditActivityForm />
           </Suspense>
         ),
       },

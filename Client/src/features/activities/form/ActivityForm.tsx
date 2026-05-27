@@ -1,11 +1,23 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import React from "react";
 import type { Activitiy } from "../../../lib/types/index.type";
-import { useActivities } from "../../../lib/hooks/useActivities";
+import { useActivities, useActivity } from "../../../lib/hooks/useActivities";
+import { useNavigate, useParams } from "react-router";
+import { toast } from "react-toastify";
 
-export default function ActivityForm(): React.ReactElement {
+interface Props {
+  activity?: Activitiy;
+}
+
+export function EditActivityForm(): React.ReactElement {
+  const { id } = useParams();
+  const { activity } = useActivity(id!);
+  return <ActivityForm activity={activity} />;
+}
+
+export default function ActivityForm({ activity }: Props): React.ReactElement {
+  const navigate = useNavigate();
   const { updateActivity, createActivity } = useActivities();
-  const activity = {} as Activitiy;
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,11 +38,14 @@ export default function ActivityForm(): React.ReactElement {
       data.longitude = String(activity.longitude);
       data.date = `${data.date}T00:00:00Z`;
       await updateActivity.mutateAsync(data as unknown as Activitiy);
+      navigate(`/activities/${activity.id}`);
     } else {
       data.latitude = "0";
       data.longitude = "0";
       data.date = `${data.date}T00:00:00Z`;
-      await createActivity.mutateAsync(data as unknown as Activitiy);
+      const id = await createActivity.mutateAsync(data as unknown as Activitiy);
+      toast.success("Activity created successfully!");
+      navigate(`/activities/${id}`);
     }
   };
 

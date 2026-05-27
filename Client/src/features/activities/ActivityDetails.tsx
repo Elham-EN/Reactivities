@@ -43,10 +43,14 @@ export default function ActivityDetails(): React.ReactElement {
       <Box sx={{ position: "relative" }}>
         <CardMedia
           component="img"
-          height={220}
           image={`/images/categoryImages/${activity.category}.jpg`}
           alt={activity.category}
-          sx={{ objectFit: "cover" }}
+          sx={{
+            width: "100%",
+            height: "auto",
+            display: "block",
+            objectFit: "contain",
+          }}
         />
         {/* Dark gradient so text is readable over any image */}
         <Box
@@ -150,7 +154,7 @@ export default function ActivityDetails(): React.ReactElement {
       <CardActions sx={{ px: 3, py: 1.5, gap: 1 }}>
         <Button
           component={Link}
-          to={`/activities/${activity.id}`}
+          to={`/activities/edit/${activity.id}`}
           variant="contained"
           disableElevation
           sx={{
