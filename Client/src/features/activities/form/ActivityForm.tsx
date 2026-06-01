@@ -4,6 +4,7 @@ import type { Activitiy } from "../../../lib/types/index.type";
 import { useActivities, useActivity } from "../../../lib/hooks/useActivities";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
+import { format } from "date-fns";
 
 interface Props {
   activity?: Activitiy;
@@ -36,13 +37,13 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
       data.id = activity.id;
       data.latitude = String(activity.latitude);
       data.longitude = String(activity.longitude);
-      data.date = `${data.date}T00:00:00Z`;
+      data.date = new Date(data.date as string).toISOString();
       await updateActivity.mutateAsync(data as unknown as Activitiy);
       navigate(`/activities/${activity.id}`);
     } else {
       data.latitude = "0";
       data.longitude = "0";
-      data.date = `${data.date}T00:00:00Z`;
+      data.date = new Date(data.date as string).toISOString();
       const id = await createActivity.mutateAsync(data as unknown as Activitiy);
       toast.success("Activity created successfully!");
       navigate(`/activities/${id}`);
@@ -74,12 +75,14 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
         />
         <TextField
           name="date"
-          type="date"
+          label="Date & Time"
+          type="datetime-local"
           defaultValue={
             activity?.date
-              ? new Date(activity.date).toISOString().split("T")[0]
-              : new Date().toISOString().split("T")[0]
+              ? format(new Date(activity.date), "yyyy-MM-dd'T'HH:mm")
+              : format(new Date(), "yyyy-MM-dd'T'HH:mm")
           }
+          slotProps={{ inputLabel: { shrink: true } }}
         />
         <TextField name="city" label="City" defaultValue={activity?.city} />
         <TextField name="venue" label="Venue" defaultValue={activity?.venue} />

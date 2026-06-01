@@ -15,6 +15,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import type { Activitiy } from "../../lib/types/index.type";
 import { Link } from "react-router";
+import { format } from "date-fns";
 
 interface Props {
   activity: Activitiy;
@@ -31,12 +32,7 @@ function ActivityCard({ activity }: Props): React.ReactElement {
       ? "success.main"
       : "text.secondary";
 
-  const formattedDate = new Date(activity.date).toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = format(new Date(activity.date), "EEEE, MMMM d, yyyy 'at' h:mm a");
 
   return (
     <Card

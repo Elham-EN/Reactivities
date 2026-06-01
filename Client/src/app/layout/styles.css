@@ -1,3 +1,5 @@
+@import "react-calendar/dist/Calendar.css";
+
 *,
 *::before,
 *::after {
@@ -10,4 +12,57 @@ body {
     system-ui,
     -apple-system,
     sans-serif;
+}
+
+/* react-calendar theme overrides */
+.react-calendar {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.react-calendar__tile {
+  color: inherit;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: inherit;
+}
+
+.react-calendar__tile--active,
+.react-calendar__tile--active:enabled,
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: var(--mui-palette-primary-main) !important;
+  color: #fff !important;
+  border-radius: 20px;
+}
+
+.react-calendar__tile--now,
+.react-calendar__tile--now:enabled {
+  background: var(--mui-palette-secondary-main) !important;
+  border-radius: 20px;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: var(--mui-palette-secondary-main);
+  border-radius: 20px;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background: var(--mui-palette-secondary-main);
+  border-radius: 20px;
+}
+
+.react-calendar__navigation button {
+  color: inherit;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.75rem;
 }
