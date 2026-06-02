@@ -1,3 +1,5 @@
+using Application.Activities.DTOs;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Persistence;
@@ -12,31 +14,33 @@ namespace Application.Activities.Commands
         public class Command : IRequest<string>
         {
             // Enforces that you must set it when constructing the Command
-            public required Activity Activity { get; set; }
+            public required CreateActivityDto ActivityDto { get; set; }
         }
 
         // Handler — the business logic
         public class Handler : IRequestHandler<Command, string>
         {
             private readonly AppDbContext context;
+            private readonly IMapper mapper;
 
-            public Handler(AppDbContext context)
+            public Handler(AppDbContext context, IMapper mapper)
             {
                 this.context = context;
+                this.mapper = mapper;
             }
             // Mutate the DB, add the new Activity record to the database
             public async Task<string> Handle(Command request, 
                 CancellationToken cancellationToken)
             {
-                // Override user provided id
-                request.Activity.Id = Guid.NewGuid().ToString();
+                // Convert the incoming DTO into a Domain.Activity entity
+                var activity = mapper.Map<Activity>(request.ActivityDto);
 
-                this.context.Activities.Add(request.Activity);
-
+                // Save it to the database
+                this.context.Activities.Add(activity);
                 await this.context.SaveChangesAsync(cancellationToken);
 
                 // Returns the generated ID back to the caller (the controller)
-                return request.Activity.Id;
+                return activity.Id;
             }
         }
     }
