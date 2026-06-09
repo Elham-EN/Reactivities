@@ -32,10 +32,10 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> EditActivity(Activity activity)
+        public async Task<ActionResult> EditActivity(EditActivityDto activityDto)
         {
             return HandlerResult(await this.Mediator
-                .Send(new EditActivity.Command{Activity = activity}));
+                .Send(new EditActivity.Command{ActivityDto = activityDto}));
         }
 
         [HttpDelete("{id}")]

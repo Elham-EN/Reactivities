@@ -16,6 +16,7 @@ namespace Application.Core
             // from and what we're going to map to?
             CreateMap<Activity, Activity>();
             CreateMap<CreateActivityDto, Activity>();
+            CreateMap<EditActivityDto, Activity>();
         }
     }
 }

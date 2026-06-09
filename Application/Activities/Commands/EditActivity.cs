@@ -1,4 +1,5 @@
 
+using Application.Activities.DTOs;
 using Application.Core;
 using AutoMapper;
 using Domain;
@@ -11,7 +12,7 @@ namespace Application.Activities.Commands
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public required Activity Activity { get; set; }
+            public required EditActivityDto ActivityDto { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -30,7 +31,7 @@ namespace Application.Activities.Commands
             {
                 // It does not only return the activity but it tracks it (changes)
                 var activity = await this.context.Activities
-                    .FindAsync([request.Activity.Id], cancellationToken);
+                    .FindAsync([request.ActivityDto.Id], cancellationToken);
 
                 if (activity == null)
                 {
@@ -38,7 +39,7 @@ namespace Application.Activities.Commands
                 }
 
                 // Automatically copies matching properties from source to destination 
-                mapper.Map(request.Activity, activity);
+                mapper.Map(request.ActivityDto, activity);
 
                 // EF Core sees the diff and runs UPDATE
                 var result = await context.SaveChangesAsync(cancellationToken) > 0;

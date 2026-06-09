@@ -14,116 +14,88 @@ namespace Persistence
             var activities = new List<Activity>
             {
                 new() {
-                Title = "Past Activity 1",
-                Date = DateTime.UtcNow.AddMonths(-2),
-                Description = "Activity 2 months ago",
-                Category = "drinks",
-                City = "London",
-                Venue = "The Lamb and Flag, 33, Rose Street, Seven Dials, Covent Garden, London, Greater London, England, WC2E 9EB, United Kingdom",
-                Latitude = 51.51171665,
-                Longitude = -0.1256611057818921,
+                    Title = "Wimbledon Championships 2026",
+                    Date = new DateTime(2026, 6, 29, 11, 0, 0, DateTimeKind.Utc),
+                    Description = "The world's oldest and most prestigious tennis tournament returns to the All England Club. Watch top-ranked players compete on the iconic grass courts.",
+                    Category = "sport",
+                    City = "London",
+                    Venue = "All England Lawn Tennis Club, Church Road, Wimbledon, London, SW19 5AG",
+                    Latitude = 51.4344,
+                    Longitude = -0.2136
                 },
                 new() {
-                    Title = "Past Activity 2",
-                    Date = DateTime.UtcNow.AddMonths(-1),
-                    Description = "Activity 1 month ago",
+                    Title = "Glastonbury Festival 2026",
+                    Date = new DateTime(2026, 6, 24, 12, 0, 0, DateTimeKind.Utc),
+                    Description = "The world's most famous outdoor music and performing arts festival, featuring hundreds of artists across multiple stages.",
+                    Category = "music",
+                    City = "Pilton",
+                    Venue = "Worthy Farm, Pilton, Shepton Mallet, Somerset, BA4 4BY",
+                    Latitude = 51.1537,
+                    Longitude = -2.5870
+                },
+                new() {
+                    Title = "Edinburgh Fringe Festival 2026",
+                    Date = new DateTime(2026, 8, 7, 10, 0, 0, DateTimeKind.Utc),
+                    Description = "The world's largest arts festival, featuring thousands of performances including theatre, comedy, dance, and circus across hundreds of venues.",
                     Category = "culture",
+                    City = "Edinburgh",
+                    Venue = "Edinburgh City Centre, Edinburgh, Scotland, EH1 1YZ",
+                    Latitude = 55.9533,
+                    Longitude = -3.1883
+                },
+                new() {
+                    Title = "Oktoberfest Munich 2026",
+                    Date = new DateTime(2026, 9, 19, 9, 0, 0, DateTimeKind.Utc),
+                    Description = "The world's largest beer festival and travelling funfair, held annually in Munich, Bavaria, Germany. Enjoy traditional Bavarian food, music, and beer.",
+                    Category = "drinks",
+                    City = "Munich",
+                    Venue = "Theresienwiese, Theresienhöhe, Munich, Bavaria, 80339, Germany",
+                    Latitude = 48.1315,
+                    Longitude = 11.5492
+                },
+                new() {
+                    Title = "Paris Marathon 2026",
+                    Date = new DateTime(2026, 4, 5, 8, 0, 0, DateTimeKind.Utc),
+                    Description = "One of the world's most scenic marathons, passing iconic landmarks including the Eiffel Tower, the Louvre, and the Champs-Élysées.",
+                    Category = "sport",
                     City = "Paris",
-                    Venue = "Louvre Museum, Rue Saint-Honoré, Quartier du Palais Royal, 1st Arrondissement, Paris, Ile-de-France, Metropolitan France, 75001, France",
-                    Latitude = 48.8611473,
-                    Longitude = 2.33802768704666
+                    Venue = "Champs-Élysées, 8th Arrondissement, Paris, Ile-de-France, 75008, France",
+                    Latitude = 48.8698,
+                    Longitude = 2.3078
                 },
                 new() {
-                    Title = "Future Activity 1",
-                    Date = DateTime.UtcNow.AddMonths(1),
-                    Description = "Activity 1 month in future",
-                    Category = "culture",
-                    City = "London",
-                    Venue = "Natural History Museum",
-                    Latitude = 51.496510900000004,
-                    Longitude = -0.17600190725447445
-                },
-                new() {
-                    Title = "Future Activity 2",
-                    Date = DateTime.UtcNow.AddMonths(2),
-                    Description = "Activity 2 months in future",
-                    Category = "music",
-                    City = "London",
-                    Venue = "The O2",
-                    Latitude = 51.502936649999995,
-                    Longitude = 0.0032029278126681844
-                },
-                new()
-                {
-                    Title = "Future Activity 3",
-                    Date = DateTime.UtcNow.AddMonths(3),
-                    Description = "Activity 3 months in future",
-                    Category = "drinks",
-                    City = "London",
-                    Venue = "The Mayflower",
-                    Latitude = 51.501778,
-                    Longitude = -0.053577
-                },
-                new()
-                {
-                    Title = "Future Activity 4",
-                    Date = DateTime.UtcNow.AddMonths(4),
-                    Description = "Activity 4 months in future",
-                    Category = "drinks",
-                    City = "London",
-                    Venue = "The Blackfriar",
-                    Latitude = 51.512146650000005,
-                    Longitude = -0.10364680647106028
-                },
-                new()
-                {
-                    Title = "Future Activity 5",
-                    Date = DateTime.UtcNow.AddMonths(5),
-                    Description = "Activity 5 months in future",
-                    Category = "culture",
-                    City = "London",
-                    Venue = "Sherlock Holmes Museum, 221b, Baker Street, Marylebone, London, Greater London, England, NW1 6XE, United Kingdom",
-                    Latitude = 51.5237629,
-                    Longitude = -0.1584743
-                },
-                new()
-                {
-                    Title = "Future Activity 6",
-                    Date = DateTime.UtcNow.AddMonths(6),
-                    Description = "Activity 6 months in future",
-                    Category = "music",
-                    City = "London",
-                    Venue = "Roundhouse, Chalk Farm Road, Maitland Park, Chalk Farm, London Borough of Camden, London, Greater London, England, NW1 8EH, United Kingdom",
-                    Latitude = 51.5432505,
-                    Longitude = -0.15197608174931165
-                },
-                new()
-                {
-                    Title = "Future Activity 7",
-                    Date = DateTime.UtcNow.AddMonths(7),
-                    Description = "Activity 2 months ago",
-                    Category = "travel",
-                    City = "London",
-                    Venue = "River Thames, England, United Kingdom",
-                    Latitude = 51.5575525,
-                    Longitude = -0.781404
-                },
-                new()
-                {
-                    Title = "Future Activity 8",
-                    Date = DateTime.UtcNow.AddMonths(8),
-                    Description = "Activity 8 months in future",
+                    Title = "Cannes Film Festival 2026",
+                    Date = new DateTime(2026, 5, 13, 10, 0, 0, DateTimeKind.Utc),
+                    Description = "One of the world's most prestigious film festivals, celebrating international cinema with screenings, premieres, and the coveted Palme d'Or award.",
                     Category = "film",
-                    City = "London",
-                    Venue = "River Thames, England, United Kingdom",
-                    Latitude = 51.5575525,
-                    Longitude = -0.781404
+                    City = "Cannes",
+                    Venue = "Palais des Festivals et des Congrès, 1 Boulevard de la Croisette, Cannes, 06400, France",
+                    Latitude = 43.5508,
+                    Longitude = 7.0175
+                },
+                new() {
+                    Title = "Amsterdam Dance Event 2026",
+                    Date = new DateTime(2026, 10, 14, 18, 0, 0, DateTimeKind.Utc),
+                    Description = "The world's leading electronic music conference and festival, featuring over 2,500 artists performing across 200 venues in Amsterdam.",
+                    Category = "music",
+                    City = "Amsterdam",
+                    Venue = "Melkweg, Lijnbaansgracht 234a, Amsterdam, Noord-Holland, 1017 PH, Netherlands",
+                    Latitude = 52.3643,
+                    Longitude = 4.8830
+                },
+                new() {
+                    Title = "New York Food & Wine Festival 2026",
+                    Date = new DateTime(2026, 10, 16, 11, 0, 0, DateTimeKind.Utc),
+                    Description = "A four-day culinary extravaganza celebrating the best in food and wine, featuring world-renowned chefs, tastings, and cooking demonstrations.",
+                    Category = "food",
+                    City = "New York",
+                    Venue = "Pier 92 & 94, 711 12th Avenue, New York, NY 10019, United States",
+                    Latitude = 40.7666,
+                    Longitude = -74.0005
                 }
             };
-            // It adds all the activities(entities) from the list into 
-            // EF Core's change tracker as Added state
+
             context.Activities.AddRange(activities);
-            // Executing a query against the database
             await context.SaveChangesAsync();
         }
     }
