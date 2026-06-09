@@ -1,4 +1,5 @@
 
+using Application.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,15 @@ namespace API.Controllers
                 }
                 return _mediator;
             }
+        }
+
+        protected ActionResult<T> HandlerResult<T>(Result<T> result)
+        {
+            if (!result.IsSuccess && result.Code == 404) return NotFound();
+
+            if (result.IsSuccess && result.Value != null) return result.Value;
+
+            return BadRequest(result.Error);
         }
     }
 }
