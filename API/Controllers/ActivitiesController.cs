@@ -27,23 +27,22 @@ namespace API.Controllers
         public async Task<ActionResult<string>> CreateActivity(
             CreateActivityDto activityDto)
         {
-            return await Mediator
-                .Send(new CreateActivity.Command{ActivityDto = activityDto});
+            return HandlerResult(await this.Mediator
+                .Send(new CreateActivity.Command{ActivityDto = activityDto}));
         }
 
         [HttpPut]
         public async Task<ActionResult> EditActivity(Activity activity)
         {
-            await Mediator.Send(new EditActivity.Command{Activity = activity});
-
-            return NoContent();
+            return HandlerResult(await this.Mediator
+                .Send(new EditActivity.Command{Activity = activity}));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteActivity(string id)
         {
-            await this.Mediator.Send(new DeleteActivity.Command{Id = id});
-            return Ok();
+            return HandlerResult(await this.Mediator
+                .Send(new DeleteActivity.Command{Id = id}));
         }
     }
 }
