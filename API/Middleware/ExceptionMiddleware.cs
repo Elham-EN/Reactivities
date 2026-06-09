@@ -1,3 +1,5 @@
+using System.Text.Json;
+using Application.Core;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -5,6 +7,16 @@ namespace API.Middleware;
 
 public class ExceptionMiddleware : IMiddleware
 {
+    private readonly ILogger<ExceptionMiddleware> logger;
+
+    private readonly IHostEnvironment env;
+
+    public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
+    {
+        this.logger = logger;
+        this.env = env;
+    }
+
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
@@ -17,7 +29,7 @@ public class ExceptionMiddleware : IMiddleware
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            await HandleException(context, ex);
         }
     }
 
@@ -55,6 +67,30 @@ public class ExceptionMiddleware : IMiddleware
         };
 
         await context.Response.WriteAsJsonAsync(validationProblemDetails);
+    }
+
+    private async Task HandleException(HttpContext context, Exception ex)
+    {
+        logger.LogError(ex, ex.Message);
+
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+        var response = env.IsDevelopment()
+            ? new AppException(context.Response.StatusCode, ex.Message, ex.StackTrace)
+            : new AppException(context.Response.StatusCode, ex.Message, null);
+
+        
+        // without it, ASP.NET Core would return its own ugly default 500 HTML page, which Axios 
+        // can't parse as JSON. The middleware ensures the React client always gets a consistent 
+        // JSON shape back
+        var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+        // Converts the value of a type specified by a generic type parameter into a JSON string
+        var json = JsonSerializer.Serialize(response, options);
+
+        // Writes the given text to the response body
+        await context.Response.WriteAsync(json);
     }
 }
 
