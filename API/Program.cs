@@ -22,12 +22,15 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.LicenseKey = builder.Configuration["MediatR:LicenseKey"];
     cfg.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>();
+    // MediatR picks it up automatically as a pipeline behavior for every mediator.Send(...)
+    //  It runs between the Send and the actual handler.
     cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.LicenseKey = builder.Configuration["MediatR:LicenseKey"];
 }, typeof(MappingProfiles).Assembly);
+// registers every class that extends AbstractValidator<T> into DI automatically.
 builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidator>();
 // middleware should be stateless and a fresh instance per request
 builder.Services.AddTransient<ExceptionMiddleware>();

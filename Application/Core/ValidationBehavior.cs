@@ -17,8 +17,12 @@ public class ValidationBehavior<TRequest, TResponse>
 {
     private readonly IValidator<TRequest> validator;
 
-    public ValidationBehavior(IValidator<TRequest> validator)
+    // DI will now pass null when no validator is registered
+    public ValidationBehavior(IValidator<TRequest> validator = null!)
     {
+        // For CreateActivity.Command → DI finds CreateActivityValidator registered, 
+        // so this.validator holds that validator instance
+        // For GetActivityList.Query → no validator registered, so DI now passes null
         this.validator = validator;
     }
 
