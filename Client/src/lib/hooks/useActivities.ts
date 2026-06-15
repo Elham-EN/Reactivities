@@ -13,6 +13,7 @@ export function useActivity(id: string) {
       const response = await agent.get<Activitiy>(`/Activities/${id}`);
       return response.data;
     },
+    retry: false,
   });
   return { activity };
 }

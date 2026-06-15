@@ -8,6 +8,8 @@ import ActivityForm, {
 } from "../../features/activities/form/ActivityForm";
 import LoadingFallback from "../../lib/components/LoadingFallback";
 import ActivityDetailsPage from "../../features/activities/details/ActivityDetailsPage";
+import NotFound from "../../features/errors/NotFound";
+import ServerError from "../../features/errors/ServerError";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +45,18 @@ export const router = createBrowserRouter([
             <EditActivityForm />
           </Suspense>
         ),
+      },
+      {
+        path: "not-found",
+        element: <NotFound />,
+      },
+      {
+        path: "server-error",
+        element: <ServerError />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

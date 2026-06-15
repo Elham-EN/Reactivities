@@ -5,6 +5,7 @@ import { useActivities, useActivity } from "../../../lib/hooks/useActivities";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
+import { useForm, type FieldValues } from "react-hook-form";
 
 interface Props {
   activity?: Activitiy;
@@ -18,21 +19,17 @@ export function EditActivityForm(): React.ReactElement {
 
 export default function ActivityForm({ activity }: Props): React.ReactElement {
   const navigate = useNavigate();
+
+  const { register, reset, handleSubmit } = useForm<Activitiy>();
+
   const { updateActivity, createActivity } = useActivities();
 
-  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  React.useEffect(() => {
+    // essentially pre-filling the edit form with the existing activity's data.
+    if (activity) reset(activity);
+  }, [activity, reset]);
 
-    const formElement = event.currentTarget;
-
-    const formData = new FormData(formElement);
-
-    const data: { [key: string]: FormDataEntryValue } = {};
-
-    formData.forEach((value, key) => {
-      data[key] = value;
-    });
-
+  const onSubmit = async (data: FieldValues) => {
     if (activity) {
       data.id = activity.id;
       data.latitude = String(activity.latitude);
@@ -57,24 +54,28 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
       </Typography>
       <Box
         component="form"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         sx={{ display: "flex", flexDirection: "column", gap: 3 }}
       >
-        <TextField name="title" label="Title" defaultValue={activity?.title} />
         <TextField
-          name="description"
+          {...register("title")}
+          label="Title"
+          defaultValue={activity?.title}
+        />
+        <TextField
+          {...register("description")}
           label="Description"
           multiline
           rows={3}
           defaultValue={activity?.description}
         />
         <TextField
-          name="category"
+          {...register("category")}
           label="Category"
           defaultValue={activity?.category}
         />
         <TextField
-          name="date"
+          {...register("date")}
           label="Date & Time"
           type="datetime-local"
           defaultValue={
@@ -84,8 +85,16 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
           }
           slotProps={{ inputLabel: { shrink: true } }}
         />
-        <TextField name="city" label="City" defaultValue={activity?.city} />
-        <TextField name="venue" label="Venue" defaultValue={activity?.venue} />
+        <TextField
+          {...register("city")}
+          label="City"
+          defaultValue={activity?.city}
+        />
+        <TextField
+          {...register("venue")}
+          label="Venue"
+          defaultValue={activity?.venue}
+        />
         <Box sx={{ display: "flex", justifyContent: "end" }}>
           <Button onClick={() => {}} color="inherit">
             Cancel
