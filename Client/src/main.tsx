@@ -16,18 +16,22 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider } from "react-router";
 import { router } from "./app/router/Route";
 import { ToastContainer } from "react-toastify";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider theme={theme} defaultMode="light" noSsr>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
-        <CssBaseline />
-        <ToastContainer position="top-right" autoClose={3000} />
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools />
+          <CssBaseline />
+          <ToastContainer position="top-right" autoClose={3000} />
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   </StrictMode>,
 );
