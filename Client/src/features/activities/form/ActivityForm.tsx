@@ -1,15 +1,19 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import React from "react";
 import type { Activitiy } from "../../../lib/types/index.type";
 import { useActivities, useActivity } from "../../../lib/hooks/useActivities";
 import { useNavigate, useParams } from "react-router";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
+  activityDefaultValues,
   activitySchema,
   type ActivitySchema,
 } from "../../../lib/schemas/activitySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import TextInput from "../../../lib/components/TextInput";
+import SelectInput from "../../../lib/components/SelectInput";
+import { categoryOptions } from "./categoryOptions";
+import DateTimeInput from "../../../lib/components/DateTimeInput";
 
 interface Props {
   activity?: Activitiy;
@@ -24,22 +28,17 @@ export function EditActivityForm(): React.ReactElement {
 export default function ActivityForm({ activity }: Props): React.ReactElement {
   const navigate = useNavigate();
 
-  const {
-    register,
-    reset,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<ActivitySchema>({
+  const { reset, handleSubmit, control } = useForm<ActivitySchema>({
     resolver: zodResolver(activitySchema),
-    mode: "onTouched",
+    mode: "all", // runs validation on both onChange and onBlur
+    defaultValues: activityDefaultValues,
   });
 
   const { updateActivity, createActivity } = useActivities();
 
   React.useEffect(() => {
     // essentially pre-filling the edit form with the existing activity's data.
-    if (activity) reset({ ...activity, date: new Date(activity.date) });
+    if (activity) reset(activity);
   }, [activity, reset]);
 
   const onSubmit = async (data: ActivitySchema) => {
@@ -65,52 +64,34 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ display: "flex", flexDirection: "column", gap: 3 }}
       >
-        <TextField
-          {...register("title")}
+        <TextInput<ActivitySchema>
           label="Title"
-          defaultValue={activity?.title}
-          error={Boolean(errors.title)}
-          helperText={errors.title?.message}
+          name="title"
+          control={control}
         />
-        <TextField
-          {...register("description")}
+        <TextInput<ActivitySchema>
           label="Description"
+          name="description"
           multiline
           rows={3}
-          defaultValue={activity?.description}
+          control={control}
         />
-        <TextField
-          {...register("category")}
+        <SelectInput
+          items={categoryOptions}
           label="Category"
-          defaultValue={activity?.category}
+          name="category"
+          control={control}
         />
-        <Controller
+        <DateTimeInput<ActivitySchema>
+          label="Date"
           name="date"
           control={control}
-          render={({ field }) => (
-            <DateTimePicker
-              label="Date & Time"
-              value={field.value ?? null}
-              onChange={field.onChange}
-              slotProps={{
-                textField: {
-                  onBlur: field.onBlur,
-                  error: Boolean(errors.date),
-                  helperText: errors.date?.message,
-                },
-              }}
-            />
-          )}
         />
-        <TextField
-          {...register("city")}
-          label="City"
-          defaultValue={activity?.city}
-        />
-        <TextField
-          {...register("venue")}
+        <TextInput<ActivitySchema> label="City" name="city" control={control} />
+        <TextInput<ActivitySchema>
           label="Venue"
-          defaultValue={activity?.venue}
+          name="venue"
+          control={control}
         />
         <Box sx={{ display: "flex", justifyContent: "end" }}>
           <Button onClick={() => {}} color="inherit">

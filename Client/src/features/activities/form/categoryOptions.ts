@@ -1,0 +1,17 @@
+export const categoryOptions = [
+  { value: "sports", text: "Sports & Fitness" },
+  { value: "music", text: "Music & Concerts" },
+  { value: "food", text: "Food & Drink" },
+  { value: "culture", text: "Arts & Culture" },
+  { value: "travel", text: "Travel & Outdoors" },
+  { value: "education", text: "Education & Workshops" },
+  { value: "technology", text: "Technology & Gaming" },
+  { value: "health", text: "Health & Wellness" },
+  { value: "business", text: "Business & Networking" },
+  { value: "film", text: "Film & Photography" },
+  { value: "volunteering", text: "Volunteering & Charity" },
+  { value: "family", text: "Family & Kids" },
+  { value: "fashion", text: "Fashion & Beauty" },
+  { value: "science", text: "Science & Nature" },
+  { value: "comedy", text: "Comedy & Entertainment" },
+];
