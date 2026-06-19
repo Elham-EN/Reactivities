@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Alert, Box, Button, Paper, Typography } from "@mui/material";
 import React from "react";
 import type { Activitiy } from "../../../lib/types/index.type";
 import { useActivities, useActivity } from "../../../lib/hooks/useActivities";
@@ -15,6 +15,7 @@ import SelectInput from "../../../lib/components/SelectInput";
 import { categoryOptions } from "./categoryOptions";
 import DateTimeInput from "../../../lib/components/DateTimeInput";
 import LocationInput from "../../../lib/components/LocationInput";
+import { toast } from "react-toastify";
 
 interface Props {
   activity?: Activitiy;
@@ -34,26 +35,66 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
     mode: "all",
     defaultValues: activityDefaultValues,
   });
-  const { reset, handleSubmit, control } = methods;
+  const {
+    reset,
+    handleSubmit,
+    control,
+    setError,
+    formState: { errors },
+  } = methods;
 
   const { updateActivity, createActivity } = useActivities();
 
   React.useEffect(() => {
-    if (activity) reset(activity);
+    if (activity)
+      // Put activity coming from the server in the shape our form schema expected
+      reset({
+        ...activity,
+        location: {
+          city: activity.city,
+          venue: activity.venue,
+          latitude: activity.latitude,
+          longitude: activity.longitude,
+        },
+      });
   }, [activity, reset]);
 
-  const onSubmit = async (data: ActivitySchema) => {
-    console.log(data);
-    // if (activity) {
-    //   navigate(`/activities/${activity.id}`);
-    // } else {
-    //   data.latitude = "0";
-    //   data.longitude = "0";
-    //   data.date = new Date(data.date as string).toISOString();
-    //   const id = await createActivity.mutateAsync(data as unknown as Activitiy);
-    //   toast.success("Activity created successfully!");
-    //   navigate(`/activities/${id}`);
-    // }
+  // Flatten ActivitySchema data into Activity Shape to send to the server
+  const onSubmit = (data: ActivitySchema): void => {
+    const { location, ...rest } = data;
+    const flattenedData = { ...rest, ...location } as Activitiy;
+    try {
+      if (activity) {
+        updateActivity.mutate(
+          { ...activity, ...flattenedData },
+          {
+            onSuccess: () => {
+              toast.success("Activitiy Updated");
+              navigate(`/activities/${activity.id}`);
+            },
+            onError: (error) => {
+              if (Array.isArray(error)) {
+                setError("root.serverError", { message: error.join(", ") });
+              }
+            },
+          },
+        );
+      } else {
+        createActivity.mutate(flattenedData, {
+          onSuccess: (id: string) => {
+            toast.success("Activitiy created successfully");
+            navigate(`/activities/${id}`);
+          },
+          onError: (error) => {
+            if (Array.isArray(error)) {
+              setError("root.serverError", { message: error.join(", ") });
+            }
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -98,6 +139,9 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
               control={control}
             />
           </Box>
+          {errors.root?.serverError && (
+            <Alert severity="error">{errors.root.serverError.message}</Alert>
+          )}
           <LocationInput<ActivitySchema>
             label="Enter location"
             name="location.venue"
