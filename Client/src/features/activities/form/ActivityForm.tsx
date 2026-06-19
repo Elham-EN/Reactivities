@@ -3,7 +3,7 @@ import React from "react";
 import type { Activitiy } from "../../../lib/types/index.type";
 import { useActivities, useActivity } from "../../../lib/hooks/useActivities";
 import { useNavigate, useParams } from "react-router";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import {
   activityDefaultValues,
   activitySchema,
@@ -14,6 +14,7 @@ import TextInput from "../../../lib/components/TextInput";
 import SelectInput from "../../../lib/components/SelectInput";
 import { categoryOptions } from "./categoryOptions";
 import DateTimeInput from "../../../lib/components/DateTimeInput";
+import LocationInput from "../../../lib/components/LocationInput";
 
 interface Props {
   activity?: Activitiy;
@@ -28,20 +29,21 @@ export function EditActivityForm(): React.ReactElement {
 export default function ActivityForm({ activity }: Props): React.ReactElement {
   const navigate = useNavigate();
 
-  const { reset, handleSubmit, control } = useForm<ActivitySchema>({
+  const methods = useForm<ActivitySchema>({
     resolver: zodResolver(activitySchema),
-    mode: "all", // runs validation on both onChange and onBlur
+    mode: "all",
     defaultValues: activityDefaultValues,
   });
+  const { reset, handleSubmit, control } = methods;
 
   const { updateActivity, createActivity } = useActivities();
 
   React.useEffect(() => {
-    // essentially pre-filling the edit form with the existing activity's data.
     if (activity) reset(activity);
   }, [activity, reset]);
 
   const onSubmit = async (data: ActivitySchema) => {
+    console.log(data);
     // if (activity) {
     //   navigate(`/activities/${activity.id}`);
     // } else {
@@ -55,57 +57,66 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
   };
 
   return (
-    <Paper sx={{ borderRadius: 3, padding: 3 }} elevation={0}>
-      <Typography variant="h5" gutterBottom color="primary">
-        Create activity
-      </Typography>
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        sx={{ display: "flex", flexDirection: "column", gap: 3 }}
-      >
-        <TextInput<ActivitySchema>
-          label="Title"
-          name="title"
-          control={control}
-        />
-        <TextInput<ActivitySchema>
-          label="Description"
-          name="description"
-          multiline
-          rows={3}
-          control={control}
-        />
-        <SelectInput
-          items={categoryOptions}
-          label="Category"
-          name="category"
-          control={control}
-        />
-        <DateTimeInput<ActivitySchema>
-          label="Date"
-          name="date"
-          control={control}
-        />
-        <TextInput<ActivitySchema> label="City" name="city" control={control} />
-        <TextInput<ActivitySchema>
-          label="Venue"
-          name="venue"
-          control={control}
-        />
-        <Box sx={{ display: "flex", justifyContent: "end" }}>
-          <Button onClick={() => {}} color="inherit">
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            type="submit"
-            loading={updateActivity.isPending || createActivity.isPending}
+    <FormProvider {...methods}>
+      <Paper sx={{ borderRadius: 3, padding: 3 }} elevation={0}>
+        <Typography variant="h5" gutterBottom color="primary">
+          Create activity
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{ display: "flex", flexDirection: "column", gap: 3 }}
+        >
+          <TextInput<ActivitySchema>
+            label="Title"
+            name="title"
+            control={control}
+          />
+          <TextInput<ActivitySchema>
+            label="Description"
+            name="description"
+            multiline
+            rows={3}
+            control={control}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: 3,
+            }}
           >
-            Submit
-          </Button>
+            <SelectInput
+              items={categoryOptions}
+              label="Category"
+              name="category"
+              control={control}
+            />
+            <DateTimeInput<ActivitySchema>
+              label="Date"
+              name="date"
+              control={control}
+            />
+          </Box>
+          <LocationInput<ActivitySchema>
+            label="Enter location"
+            name="location.venue"
+            control={control}
+          />
+          <Box sx={{ display: "flex", justifyContent: "end" }}>
+            <Button onClick={() => {}} color="inherit">
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              loading={updateActivity.isPending || createActivity.isPending}
+            >
+              Submit
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    </Paper>
+      </Paper>
+    </FormProvider>
   );
 }

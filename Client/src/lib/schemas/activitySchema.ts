@@ -23,8 +23,25 @@ export const activitySchema = z.object({
     .refine((date) => date > new Date(), {
       error: "Date must be in the future",
     }),
-  city: requiredString("City", 1, 50),
-  venue: requiredString("Venue", 1, 100),
+  location: z.object({
+    venue: requiredString("Venue", 1, 100),
+    // since the autocomplete will populate it from the place selection
+    city: z.string().optional(),
+    latitude: z
+      .number()
+      .refine((val) => val !== 0, { error: "Please select a valid location" })
+      .refine((val) => val >= -90 && val <= 90, {
+        error: "Latitude must be between -90 and 90",
+      })
+      .optional(),
+    longitude: z
+      .number()
+      .refine((val) => val !== 0, { error: "Please select a valid location" })
+      .refine((val) => val >= -180 && val <= 180, {
+        error: "Longitude must be between -180 and 180",
+      })
+      .optional(),
+  }),
 });
 
 export type ActivitySchema = z.infer<typeof activitySchema>;
@@ -33,6 +50,7 @@ export const activityDefaultValues: Partial<ActivitySchema> = {
   title: "",
   description: "",
   category: "",
-  city: "",
-  venue: "",
+  location: {
+    venue: "",
+  },
 };

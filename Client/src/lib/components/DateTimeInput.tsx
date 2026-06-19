@@ -28,6 +28,7 @@ export default function DateTimeInput<T extends FieldValues>(
       {...props}
       value={field.value ?? null}
       onChange={field.onChange}
+      sx={{ width: "100%" }}
       slotProps={{
         textField: {
           onBlur: field.onBlur,
