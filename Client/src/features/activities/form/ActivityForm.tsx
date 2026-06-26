@@ -99,7 +99,7 @@ export default function ActivityForm({ activity }: Props): React.ReactElement {
 
   return (
     <FormProvider {...methods}>
-      <Paper sx={{ borderRadius: 3, padding: 3 }} elevation={0}>
+      <Paper sx={{ borderRadius: 1, padding: 3 }} elevation={0}>
         <Typography variant="h5" gutterBottom color="primary">
           Create activity
         </Typography>

@@ -22,11 +22,14 @@ export default function DateTimeInput<T extends FieldValues>(
 ): React.ReactElement {
   const { field, fieldState } = useController({ ...props });
 
+  // DateTimePicker requires a Date object; the server returns an ISO string so convert it
+  const dateValue = field.value ? new Date(field.value) : null;
+
   // Return a controlled DateTime Picker Compoment
   return (
     <DateTimePicker
       {...props}
-      value={field.value ?? null}
+      value={dateValue}
       onChange={field.onChange}
       sx={{ width: "100%" }}
       slotProps={{

@@ -2,7 +2,9 @@ using API.Middleware;
 using Application.Activities.Queries;
 using Application.Activities.Validators;
 using Application.Core;
+using Domain;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -34,6 +36,13 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidator>();
 // middleware should be stateless and a fresh instance per request
 builder.Services.AddTransient<ExceptionMiddleware>();
+// Activate Identity APIs
+builder.Services.AddIdentityApiEndpoints<User>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
 
@@ -53,7 +62,15 @@ app.UseCors(x =>
     .WithOrigins("http://localhost:3000", "https://localhost:3000")
 );
 
+// First need to authentication user
+app.UseAuthentication();
+// Then authorize user what they are allow to do
+app.UseAuthorization();
+
 app.MapControllers();
+
+// Map the Identity endpoints api/login
+app.MapGroup("api").MapIdentityApi<User>();
 
 // The scope runs before app.Run() — it's not part of the request pipeline 
 // at all. It executes once at startup: Then it disposes
@@ -63,8 +80,9 @@ try
 {
     // Give us Access to the Database instance
     var context = services.GetRequiredService<AppDbContext>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
     await context.Database.MigrateAsync();
-    await DbInitializer.SeedData(context);
+    await DbInitializer.SeedData(context, userManager);
 }
 catch (Exception ex)
 {

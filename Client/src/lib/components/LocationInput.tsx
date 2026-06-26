@@ -28,12 +28,9 @@ export default function LocationInput<T extends FieldValues>(
   const { setValue } = useFormContext<ActivitySchema>();
 
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [suggestions, setSuggestions] = React.useState<LocationSuggestion[]>(
-    [],
-  );
-  const [inputValue, setInputValue] = React.useState<string>("");
+  const [suggestions, setSuggestions] = React.useState<LocationSuggestion[]>([]);
 
-  const locationUrl = `${import.meta.env.VITE_LOCATIONIQ_URL}&limit=5&dedupe=1&`;
+  const locationUrl = import.meta.env.VITE_LOCATIONIQ_URL;
 
   const fetchSuggestions = React.useMemo(
     () =>
@@ -44,9 +41,9 @@ export default function LocationInput<T extends FieldValues>(
         }
         setLoading(true);
         try {
-          const res = await axios.get<LocationSuggestion[]>(
-            `${locationUrl}q=${query}`,
-          );
+          const res = await axios.get<LocationSuggestion[]>(locationUrl, {
+            params: { q: query, limit: 5, dedupe: 1 },
+          });
           setSuggestions(res.data);
         } catch (error) {
           console.error(error);
@@ -58,7 +55,6 @@ export default function LocationInput<T extends FieldValues>(
   );
 
   const handleChange = async (value: string): Promise<void> => {
-    setInputValue(value);
     field.onChange(value);
     await fetchSuggestions(value);
   };
@@ -71,7 +67,6 @@ export default function LocationInput<T extends FieldValues>(
       location.address?.village;
     const latitude = parseFloat(location.lat);
     const longitude = parseFloat(location.lon);
-    setInputValue(venue);
     field.onChange(venue);
     setValue("location.city", city);
     setValue("location.latitude", latitude);
@@ -83,7 +78,7 @@ export default function LocationInput<T extends FieldValues>(
     <Box>
       <TextField
         {...props}
-        value={inputValue}
+        value={field.value ?? ""}
         onChange={(event) => handleChange(event.target.value)}
         onBlur={field.onBlur}
         fullWidth
