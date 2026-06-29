@@ -66,13 +66,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Web application pipeline to allow cross domain requests
 app.UseCors(x => 
-    x.AllowAnyHeader()
+   x.AllowCredentials()
+    .AllowAnyHeader()
     .AllowAnyMethod()
     .WithOrigins("http://localhost:3000", "https://localhost:3000")
 );
 
-// First need to authentication user
+// First need to au shentication user
 app.UseAuthentication();
 // Then authorize user what they are allow to do
 app.UseAuthorization();
