@@ -11,6 +11,13 @@ export interface Activitiy {
   longitude: number;
 }
 
+export interface User {
+  id: string;
+  email: string;
+  displayName: string;
+  imageUrl?: string;
+}
+
 export interface LocationSuggestion {
   place_id: string;
   osm_id: string;

@@ -11,11 +11,14 @@ import ActivityDetailsPage from "../../features/activities/details/ActivityDetai
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
 import LoginForm from "../../features/account/LoginForm";
+import RouteErrorBoundary from "./RouteErrorBoundary";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    // any auth-gated query anywhere under / gets covered, not just the two routes
+    errorElement: <RouteErrorBoundary />,
     children: [
       {
         path: "",

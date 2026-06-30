@@ -15,6 +15,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useState, type ChangeEvent } from "react";
 import { NavLink } from "react-router";
+import { useAccount } from "../../lib/hooks/useAccount";
 
 const navLinks = [
   { name: "Activities", path: "activities", end: true },
@@ -24,6 +25,7 @@ const navLinks = [
 export default function NavBar(): React.ReactElement {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { mode, setMode } = useColorScheme();
+  const { currentUser } = useAccount();
 
   const label = { slotProps: { input: { "aria-label": "dark-mode" } } };
 
@@ -100,14 +102,20 @@ export default function NavBar(): React.ReactElement {
               ))}
             </Box>
           </Box>
-          <Button
-            variant="contained"
-            sx={{ textTransform: "none" }}
-            component={NavLink}
-            to="/account/login"
-          >
-            Login
-          </Button>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {currentUser ? (
+              <Typography>Welcome {currentUser.displayName}</Typography>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{ textTransform: "none" }}
+                component={NavLink}
+                to="/account/login"
+              >
+                Login
+              </Button>
+            )}
+          </Box>
         </Toolbar>
       </AppBar>
 
