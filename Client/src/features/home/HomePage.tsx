@@ -16,15 +16,15 @@ import { NavLink } from "react-router";
 const features = [
   {
     icon: <ExploreOutlinedIcon sx={{ fontSize: 40, color: "primary.main" }} />,
-    title: "Discover Activities",
+    title: "Discover Raves",
     description:
-      "Browse hundreds of local and global activities across music, travel, food, sports and more.",
+      "Browse underground raves, warehouse parties, and festivals from the world's best DJs and collectives, near you and beyond.",
   },
   {
     icon: <GroupOutlinedIcon sx={{ fontSize: 40, color: "primary.main" }} />,
-    title: "Join the Community",
+    title: "Join the Scene",
     description:
-      "Connect with like-minded people, join activities, and build meaningful experiences together.",
+      "Connect with fellow ravers, see who's going, and link up with the community before you even step on the dancefloor.",
   },
   {
     icon: (
@@ -32,9 +32,9 @@ const features = [
         sx={{ fontSize: 40, color: "primary.main" }}
       />
     ),
-    title: "Create & Host",
+    title: "Host Your Own",
     description:
-      "Organise your own events, invite others, and manage everything from one place.",
+      "Throwing a set or running a night? List your event, manage the lineup, and get ravers through the door.",
   },
 ];
 
@@ -44,43 +44,54 @@ export default function HomePage(): React.ReactElement {
       {/* Hero */}
       <Box
         sx={{
+          position: "relative",
           minHeight: "80vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
           px: 2,
+          backgroundImage: "url(/images/homeImage.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            bgcolor: "rgba(0, 0, 0, 0.75)",
+          },
         }}
       >
-        <Box sx={{ maxWidth: 640 }}>
+        <Box sx={{ position: "relative", maxWidth: 640 }}>
           <Typography
             variant="h2"
             sx={{
               fontFamily: "Outfit, sans-serif",
               fontWeight: 700,
               letterSpacing: "-1px",
-              color: "text.primary",
+              color: "#fff",
               mb: 2,
               fontSize: { xs: "2.5rem", md: "3.5rem" },
             }}
           >
             Find your next{" "}
             <Box component="span" sx={{ color: "primary.main" }}>
-              experience
+              rave
             </Box>
           </Typography>
           <Typography
             variant="h6"
             sx={{
-              color: "text.secondary",
+              color: "rgba(255,255,255,0.85)",
               fontWeight: 400,
               mb: 4,
               lineHeight: 1.7,
               fontSize: { xs: "1rem", md: "1.15rem" },
             }}
           >
-            Reactivities helps you discover, join, and create real-world
-            activities with people who share your passions.
+            Reactivities helps you discover underground raves, warehouse
+            parties, and festivals, then connect with the people who'll be
+            there with you.
           </Typography>
           <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
             <Button
@@ -89,9 +100,14 @@ export default function HomePage(): React.ReactElement {
               variant="contained"
               size="large"
               disableElevation
-              sx={{ borderRadius: 5, textTransform: "none", fontWeight: 700, px: 4 }}
+              sx={{
+                borderRadius: 5,
+                textTransform: "none",
+                fontWeight: 700,
+                px: 4,
+              }}
             >
-              Browse Activities
+              Browse Raves
             </Button>
             <Button
               variant="outlined"
@@ -101,9 +117,12 @@ export default function HomePage(): React.ReactElement {
                 textTransform: "none",
                 fontWeight: 600,
                 px: 4,
-                borderColor: "divider",
-                color: "text.secondary",
-                "&:hover": { borderColor: "primary.main", color: "primary.main" },
+                borderColor: "rgba(255,255,255,0.6)",
+                color: "#fff",
+                "&:hover": {
+                  borderColor: "#fff",
+                  bgcolor: "rgba(255,255,255,0.1)",
+                },
               }}
             >
               Learn More
@@ -113,7 +132,7 @@ export default function HomePage(): React.ReactElement {
       </Box>
 
       {/* Features */}
-      <Container maxWidth="lg" sx={{ pb: 10 }}>
+      <Container maxWidth="lg" sx={{ pt: 10, pb: 10 }}>
         <Typography
           variant="h5"
           sx={{
@@ -123,7 +142,7 @@ export default function HomePage(): React.ReactElement {
             color: "text.primary",
           }}
         >
-          Everything you need to stay active
+          Everything you need to find your next night out
         </Typography>
         <Grid container spacing={3} sx={{ justifyContent: "center" }}>
           {features.map((feature) => (
@@ -144,7 +163,12 @@ export default function HomePage(): React.ReactElement {
                   {feature.icon}
                   <Typography
                     variant="h6"
-                    sx={{ fontWeight: 700, mt: 2, mb: 1, color: "text.primary" }}
+                    sx={{
+                      fontWeight: 700,
+                      mt: 2,
+                      mb: 1,
+                      color: "text.primary",
+                    }}
                   >
                     {feature.title}
                   </Typography>
@@ -179,13 +203,13 @@ export default function HomePage(): React.ReactElement {
             mb: 1.5,
           }}
         >
-          Ready to get started?
+          Ready to ride the bass?
         </Typography>
         <Typography
           variant="body1"
           sx={{ color: "rgba(255,255,255,0.8)", mb: 4 }}
         >
-          Join thousands of people discovering activities every day.
+          Join thousands of ravers discovering their next event every day.
         </Typography>
         <Button
           variant="contained"
@@ -203,6 +227,21 @@ export default function HomePage(): React.ReactElement {
         >
           Sign Up Free
         </Button>
+      </Box>
+
+      {/* Footer */}
+      <Box
+        component="footer"
+        sx={{
+          py: 3,
+          textAlign: "center",
+          borderTop: 1,
+          borderColor: "divider",
+        }}
+      >
+        <Typography variant="body2" color="text.secondary">
+          &copy; {new Date().getFullYear()} Reactivities. All rights reserved.
+        </Typography>
       </Box>
     </Box>
   );

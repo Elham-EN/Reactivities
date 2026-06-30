@@ -8,6 +8,7 @@ const sleep = (delay: number): Promise<unknown> => {
 
 const agent = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
 });
 
 // Response interceptor: Do delay 1 sec before a response is received
@@ -46,6 +47,9 @@ agent.interceptors.response.use(
         }
         break;
       case 401:
+        // Login failures are handled by the calling mutation's onError,
+        // so the form can show a context-specific message instead.
+        if (error.config?.url?.includes("/login")) break;
         toast.error("Unauthorised");
         break;
       case 404:

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import { Suspense } from "react";
 import App from "../layout/App";
 import HomePage from "../../features/home/HomePage";
@@ -10,6 +10,7 @@ import LoadingFallback from "../../lib/components/LoadingFallback";
 import ActivityDetailsPage from "../../features/activities/details/ActivityDetailsPage";
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
+import LoginForm from "../../features/account/LoginForm";
 
 export const router = createBrowserRouter([
   {
@@ -56,8 +57,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <NotFound />,
+        element: <Navigate replace to={"/not-found"} />,
       },
     ],
+  },
+  {
+    path: "/account/login",
+    element: <LoginForm />,
   },
 ]);

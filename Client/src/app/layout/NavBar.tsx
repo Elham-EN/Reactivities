@@ -103,7 +103,8 @@ export default function NavBar(): React.ReactElement {
           <Button
             variant="contained"
             sx={{ textTransform: "none" }}
-            onClick={() => {}}
+            component={NavLink}
+            to="/account/login"
           >
             Login
           </Button>
